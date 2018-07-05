@@ -3,15 +3,15 @@
 # "ignoreip" can be an IP address, a CIDR mask or a DNS host. Fail2ban will not
 # ban a host which matches an address in this list. Several addresses can be
 # defined using space separator.
-ignoreip = 127.0.0.1/8
+ignoreip = 127.0.0.1/8 62.182.220.33
 
 # "bantime" is the number of seconds that a host is banned.
-bantime  = 600
+bantime  = 3600 ;1 hour
 
 # A host is banned if it has generated "maxretry" during the last "findtime"
 # seconds.
-findtime = 600
-maxretry = 3
+findtime = 86400 ;1 day
+maxretry = 5
 
 # "backend" specifies the backend used to get files modification.
 # Available options are "pyinotify", "gamin", "polling" and "auto".
@@ -45,24 +45,66 @@ sender = fail2ban@localhost
 enabled  = true
 port     = ssh
 filter   = sshd
-logpath   = /var/log/auth*log
+logpath  = /var/log/auth*log
 maxretry = 5
 
 [wordpress]
 
-enabled = true
-port = http,https
-filter = wordpress
-action = docker-iptables-multiport[name=wordpress, port="http,https", protocol=tcp]
-logpath = /var/log/apache2/access*log
+enabled  = true
+port     = http,https
+filter   = wordpress
+action   = docker-iptables-multiport[name=wordpress, port="http,https", protocol=tcp]
+logpath  = /var/log/apache2/access*log
 maxretry = 10
-findtime = 60
-
 
 [dkr-apache-multiport]
 
-enabled   = false
-filter    = apache-auth
-logpath   = /var/log/apache*/*error.log
-action    = docker-iptables-multiport[name=NoAuthFailures, port="http,https"]
-maxretry  = 6
+enabled  = true
+filter   = apache-auth
+logpath  = /var/log/apache*/*error.log
+action   = docker-iptables-multiport[name=NoAuthFailures, port="http,https"]
+maxretry = 6
+
+[f2b-loop2]
+
+enabled  = true
+filter   = f2b-loop
+bantime  = 86400 ;1 day
+findtime = 604800 ;1 week
+logpath  = /var/log/fail2ban.log
+action   = iptables-multiport
+           docker-iptables-multiport[name=NoAuthFailures, port="http,https"]
+maxretry = 2
+
+[f2b-loop3]
+
+enabled  = true
+filter   = f2b-loop
+bantime	 = 604800 ;1 week
+findtime = 2592000 ;1 month
+logpath  = /var/log/fail2ban.log
+action   = iptables-multiport
+           docker-iptables-multiport[name=NoAuthFailures, port="http,https"]
+maxretry = 3
+
+[f2b-loop4]
+
+enabled  = true
+filter   = f2b-loop
+bantime  = 2592000 ;1 month
+findtime = 15552000 ;6 months
+logpath  = /var/log/fail2ban.log
+action   = iptables-multiport
+           docker-iptables-multiport[name=NoAuthFailures, port="http,https"]
+maxretry = 6
+
+[f2b-loop5]
+
+enabled  = true
+filter   = f2b-loop
+bantime  = 15552000 ;6 months
+findtime = 31536000 ;1 year
+logpath  = /var/log/fail2ban.log
+action   = iptables-multiport
+           docker-iptables-multiport[name=NoAuthFailures, port="http,https"]
+maxretry = 9
