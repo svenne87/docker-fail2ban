@@ -40,7 +40,7 @@ sendername = Fail2Ban
 # Email address of the sender
 sender = fail2ban@localhost
 
-[ssh]
+[sshd]
 
 enabled  = true
 port     = ssh
