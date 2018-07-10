@@ -13,6 +13,8 @@ function setTimeZone {
     fi
 }
 
+touch /var/log/fail2ban.log
+touch /var/log/auth.log
 setTimeZone
 service fail2ban stop
 rm -f /var/run/fail2ban/*
