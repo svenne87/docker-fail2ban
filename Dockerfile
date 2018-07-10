@@ -22,4 +22,7 @@ COPY filter.d/ /etc/fail2ban/filter.d/
 COPY action.d/ /etc/fail2ban/action.d/
 COPY jail.local /etc/fail2ban/
 
+RUN touch /var/log/fail2ban.log
+RUN touch /var/log/auth.log
+
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
