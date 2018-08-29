@@ -20,5 +20,7 @@ touch /var/log/apache2/error.log
 setTimeZone
 service fail2ban stop
 rm -f /var/run/fail2ban/*
+docker=$(ip addr|awk '/docker/ && /inet/ {gsub(/\/[0-9][0-9]/,""); print $2}'); sed -i "/^ignoreip =/ s/$/ ${docker}\/8/" /etc/fail2ban/jail.local
+bridge=$(ip addr|awk '/br-/ && /inet/ {gsub(/\/[0-9][0-9]/,""); print $2}'); sed -i "/^ignoreip =/ s/$/ ${bridge}\/8/" /etc/fail2ban/jail.local
 service fail2ban start
 tailf /var/log/fail2ban.log
