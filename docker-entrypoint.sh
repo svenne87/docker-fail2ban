@@ -15,9 +15,9 @@ function setTimeZone {
 
 touch /var/log/fail2ban.log
 touch /var/log/auth.log
-touch /var/log/apache2/access.log
-touch /var/log/apache2/error.log
-touch /var/log/mysql/error.log
+mkdir -p /var/log/apache2/ && touch /var/log/apache2/access.log
+mkdir -p /var/log/apache2/ && touch /var/log/apache2/error.log
+mkdir -p /var/log/mysql/ && touch /var/log/mysql/error.log
 setTimeZone
 service fail2ban stop
 rm -f /var/run/fail2ban/*
