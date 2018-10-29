@@ -65,6 +65,14 @@ logpath  = /var/log/apache*/*error.log
 action   = docker-iptables-multiport[name=NoAuthFailures, port="http,https"]
 maxretry = 6
 
+[mysqld-auth]
+
+enabled  = true
+filter   = mysqld-auth
+port     = 3306
+logpath  = /var/log/mysql/error.log
+maxretry = 6
+
 [f2b-loop2]
 
 enabled  = true
