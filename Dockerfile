@@ -21,5 +21,6 @@ RUN chmod +x /usr/bin/entrypoint.sh
 COPY filter.d/ /etc/fail2ban/filter.d/
 COPY action.d/ /etc/fail2ban/action.d/
 COPY jail.local /etc/fail2ban/
+COPY whitelist.conf /etc/fail2ban/
 
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
