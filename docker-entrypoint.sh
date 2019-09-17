@@ -49,4 +49,4 @@ then
 fi
 
 service fail2ban start
-tailf /var/log/fail2ban.log
+tail -f /var/log/fail2ban.log
