@@ -37,5 +37,16 @@ if ! grep -q "$bridge" /etc/fail2ban/whitelist.conf; then
     sed -i "/^ignoreip =/ s/$/ ${bridge}\/8/" /etc/fail2ban/whitelist.conf
 fi
 
+# Insert IP-addresses from ENV variable
+if [ -n "$WHITELIST_IP" ]
+then
+    for i in $(echo $WHITELIST_IP | tr "," "\n")
+    do
+        if ! grep -q "$i" /etc/fail2ban/whitelist.conf; then
+            sed -i "/^ignoreip =/ s/$/ ${i}\/8/" /etc/fail2ban/whitelist.conf
+        fi
+    done
+fi
+
 service fail2ban start
 tailf /var/log/fail2ban.log
